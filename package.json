@@ -1,0 +1,25 @@
+{
+  "name": "comic-translator-py",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ImDarkShadow/comic-translator-py.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ImDarkShadow/comic-translator-py/issues"
+  },
+  "homepage": "https://github.com/ImDarkShadow/comic-translator-py#readme",
+  "dependencies": {
+    "adm-zip": "^0.5.9",
+    "gm": "^1.25.0",
+    "jszip": "^3.10.1",
+    "python-shell": "^3.0.1"
+  }
+}
