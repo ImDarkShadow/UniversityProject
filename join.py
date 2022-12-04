@@ -6,50 +6,19 @@ from ocr import ocr
 
 # total arguments
 # n = len(sys.argv)
+sys.argv.pop(0)
+comicName = sys.argv[0]
+lang = sys.argv[1]
+sys.argv.pop(0)
+sys.argv.pop(0)
+comicFile = sys.argv[0].split(",")
 
-# sys.argv.pop(0)
 
-jk = [
-    '0.rawkuma.com.jpeg',  '1.rawkuma.com.jpeg',  '10.rawkuma.com.jpeg',
-    '11.rawkuma.com.jpeg', '12.rawkuma.com.jpeg', '13.rawkuma.com.jpeg',
-    '14.rawkuma.com.jpeg', '15.rawkuma.com.jpeg', '16.rawkuma.com.jpeg',
-    '17.rawkuma.com.jpeg', '18.rawkuma.com.jpeg', '19.rawkuma.com.jpeg',
-    '2.rawkuma.com.jpeg',  '20.rawkuma.com.jpeg', '21.rawkuma.com.jpeg',
-    '22.rawkuma.com.jpeg', '23.rawkuma.com.jpeg', '24.rawkuma.com.jpeg',
-    '25.rawkuma.com.jpeg', '26.rawkuma.com.jpeg', '27.rawkuma.com.jpeg',
-    '28.rawkuma.com.jpeg', '29.rawkuma.com.jpeg', '3.rawkuma.com.jpeg',
-    '30.rawkuma.com.jpeg', '31.rawkuma.com.jpeg', '32.rawkuma.com.jpeg',
-    '33.rawkuma.com.jpeg', '34.rawkuma.com.jpeg', '35.rawkuma.com.jpeg',
-    '36.rawkuma.com.jpeg', '37.rawkuma.com.jpeg', '38.rawkuma.com.jpeg',
-    '39.rawkuma.com.jpeg', '4.rawkuma.com.jpeg',  '40.rawkuma.com.jpeg',
-    '41.rawkuma.com.jpeg', '42.rawkuma.com.jpeg', '43.rawkuma.com.jpeg',
-    '44.rawkuma.com.jpeg', '45.rawkuma.com.jpeg', '46.rawkuma.com.jpeg',
-    '47.rawkuma.com.jpeg', '48.rawkuma.com.jpeg', '49.rawkuma.com.jpeg',
-    '5.rawkuma.com.jpeg',  '50.rawkuma.com.jpeg', '51.rawkuma.com.jpeg',
-    '52.rawkuma.com.jpeg', '53.rawkuma.com.jpeg', '54.rawkuma.com.jpeg',
-    '55.rawkuma.com.jpeg', '56.rawkuma.com.jpeg', '57.rawkuma.com.jpeg',
-    '58.rawkuma.com.jpeg', '59.rawkuma.com.jpeg', '6.rawkuma.com.jpeg',
-    '60.rawkuma.com.jpeg', '61.rawkuma.com.jpeg', '62.rawkuma.com.jpeg',
-    '63.rawkuma.com.jpeg', '64.rawkuma.com.jpeg', '65.rawkuma.com.jpeg',
-    '66.rawkuma.com.jpeg', '67.rawkuma.com.jpeg', '68.rawkuma.com.jpeg',
-    '69.rawkuma.com.jpeg', '7.rawkuma.com.jpeg',  '70.rawkuma.com.jpeg',
-    '71.rawkuma.com.jpeg', '72.rawkuma.com.jpeg', '73.rawkuma.com.jpeg',
-    '74.rawkuma.com.jpeg', '75.rawkuma.com.jpeg', '76.rawkuma.com.jpeg',
-    '77.rawkuma.com.jpeg', '78.rawkuma.com.jpeg', '79.rawkuma.com.jpeg',
-    '8.rawkuma.com.jpeg',  '80.rawkuma.com.jpeg', '81.rawkuma.com.jpeg',
-    '82.rawkuma.com.jpeg', '83.rawkuma.com.jpeg', '84.rawkuma.com.jpeg',
-    '85.rawkuma.com.jpeg', '86.rawkuma.com.jpeg', '87.rawkuma.com.jpeg',
-    '88.rawkuma.com.jpeg', '89.rawkuma.com.jpeg', '9.rawkuma.com.jpeg',
-    '90.rawkuma.com.jpeg', '91.rawkuma.com.jpeg', '92.rawkuma.com.jpeg',
-    '93.rawkuma.com.jpeg', '94.rawkuma.com.jpeg', '95.rawkuma.com.jpeg',
-    '96.rawkuma.com.jpeg', '97.rawkuma.com.jpeg', '98.rawkuma.com.jpeg',
-    '99.rawkuma.com.jpeg'
-]
-lang = 'korean'
-jk = natsorted(jk)
-print(jk)
+comicFile = natsorted(comicFile)
+print(comicFile)
 images = [
-    "files/temp/a-returners-magic-should-be-special-chapter-191.zip/" + x for x in jk]
+    "./files/temp/"+comicName+"/" + x for x in comicFile]
+print(images)
 img = []
 for i in images:
     print(i)

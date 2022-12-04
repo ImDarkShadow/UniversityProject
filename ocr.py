@@ -69,4 +69,4 @@ def ocr(image, lang):
     for i in range(len(ROIs)):
         text = pytesseract.image_to_string(ROIs[i], lang=lang)
         extracted_text.append(text)
-    return [extracted_text, X]
+    return [X, extracted_text]

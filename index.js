@@ -36,15 +36,17 @@ gmstate.write("result.jpg", function (err) {
   else console.log(err);
 });
 */
-
+let lang = "korean";
 console.log(images);
 let options = {
   // get print results in real-time
-  args: images,
+  mode: "text",
+  pythonOptions: ["-u"],
+  args: [comic, lang, images],
 };
 
 PythonShell.run("join.py", options, function (err, results) {
   if (err) throw err;
   // results is an array consisting of messages collected during execution
-  console.log("results: %j", results);
+  console.log(results);
 });
