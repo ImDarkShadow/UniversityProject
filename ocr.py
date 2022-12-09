@@ -1,9 +1,7 @@
 import cv2
 import numpy as np
 from paddleocr import PaddleOCR, draw_ocr
-import matplotlib.pyplot as plt
 from pytesseract import *
-import asyncio
 
 # Load image, grayscale, Gaussian blur, Otsu's threshold
 # image = cv2.imread('1.jpg')
@@ -57,6 +55,7 @@ def ocr(image, lang):
     elif (lang == 'ch'):
         lang = 'chi_sim'
     ROIs = []
+    areas = []
     cnts = cv2.findContours(dilate, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cnts = cnts[0] if len(cnts) == 2 else cnts[1]
     for c in cnts:
@@ -64,9 +63,10 @@ def ocr(image, lang):
         # print(c)
         crop = image[y:y+h, x:x+w]
         ROIs.append(crop)
+        areas.append([x, y, w, h])
         print(x, y, w, h)
     extracted_text = []
     for i in range(len(ROIs)):
         text = pytesseract.image_to_string(ROIs[i], lang=lang)
         extracted_text.append(text)
-    return [X, extracted_text]
+    return [areas, extracted_text]
