@@ -3,7 +3,7 @@ import numpy as np
 import sys
 from natsort import natsorted
 from ocr import ocr
-
+sys.argv = ["join.py", "Archive.zip", "korean", "3.jpg", "4.jpg"]
 # total arguments
 # n = len(sys.argv)
 sys.argv.pop(0)
