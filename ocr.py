@@ -100,8 +100,9 @@ def ocr(image, lang):
 
         lh = text.strip()
         lh = lh.replace("\n", " ")
-        extracted_text.append(lh)
-        file1.write(lh)
-        file1.write("\n")
+        if lh != '':
+            extracted_text.append(lh)
+        else:
+            extracted_text.append('j')
     print(areas)
     return areas, extracted_text
