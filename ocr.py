@@ -3,6 +3,7 @@ import numpy as np
 from paddleocr import PaddleOCR, draw_ocr
 from pytesseract import *
 
+
 # Load image, grayscale, Gaussian blur, Otsu's threshold
 # image = cv.imread('1.jpg')
 # gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
@@ -30,7 +31,7 @@ from pytesseract import *
 def ocr(image, lang):
     # need to run only once to download and load model into memory
     ocr = PaddleOCR(use_angle_cls=True, lang=lang, use_gpu=False)
- # need to run only once to download and load model into memory
+    # need to run only once to download and load model into memory
     result = ocr.ocr(image, rec=False)
     X = np.array(result)
     X = np.asarray(X, dtype='int')
@@ -81,26 +82,26 @@ def ocr(image, lang):
         # j = j[0] if len(j) == 2 else j[1]
         # x, y, w, h = cv.boundingRect(j)
         # mask = np.zeros(image.shape, dtype=np.uint8)
-        crop = image[y:y+h, x:x+w]
+        crop = image[y:y + h, x:x + w]
 
-        gray = cv.cvtColor(crop, cv.COLOR_BGR2GRAY)
-        thresh = cv.threshold(
-            gray, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
-        cv.imshow('thresh', crop)
-        cv.waitKey()
+        # gray = cv.cvtColor(crop, cv.COLOR_BGR2GRAY)
+        # thresh = cv.threshold(
+        #     gray, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
+        # cv.imshow('thresh', crop)
+        # cv.waitKey()
         ROIs.append(crop)
         areas.append([x, y, w, h])
         print(x, y, w, h)
-        # dcrease y by y%
 
     extracted_text = []
     file1 = open("output.txt", "a")
     for i in range(len(ROIs)):
         text = pytesseract.image_to_string(ROIs[i], lang=lang)
-        extracted_text.append(text)
+
         lh = text.strip()
         lh = lh.replace("\n", " ")
-
+        extracted_text.append(lh)
         file1.write(lh)
         file1.write("\n")
-    return [areas, extracted_text]
+    print(areas)
+    return areas, extracted_text

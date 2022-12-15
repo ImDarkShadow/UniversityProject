@@ -3,7 +3,9 @@ import numpy as np
 import sys
 from natsort import natsorted
 from ocr import ocr
-sys.argv = ["join.py", "Archive.zip", "korean", "3.jpg", "4.jpg"]
+from print import putText
+
+sys.argv = ["join.py", "Archive.zip", "korean", "3.jpg,4.jpg"]
 # total arguments
 # n = len(sys.argv)
 sys.argv.pop(0)
@@ -13,11 +15,10 @@ sys.argv.pop(0)
 sys.argv.pop(0)
 comicFile = sys.argv[0].split(",")
 
-
 comicFile = natsorted(comicFile)
 print(comicFile)
 images = [
-    "./files/temp/"+comicName+"/" + x for x in comicFile]
+    "./files/temp/" + comicName + "/" + x for x in comicFile]
 print(images)
 img = []
 for i in images:
@@ -72,10 +73,18 @@ while i < row:
     else:
         i += 3
 texts = []
-
-for i in range(len(jk)-1):
+cords = []
+croppedImages = []
+for i in range(len(jk) - 1):
     crop = image[jk[i]:jk[i + 1], 0:col]
     # cv.imshow('image', crop)
     # cv.waitKey()
-    texts.append(ocr(crop, lang))
+    croppedImages.append(crop)
+    cord, text = ocr(crop, lang)
+    texts.append(text)
+    cords.append(cord)
+print("here will be actual output")
 print(texts)
+font = cv.FONT_HERSHEY_SIMPLEX
+for i in range(len(croppedImages)):
+    putText(croppedImages[i], texts[i], cords[i], font, 1, (0, 0, 0), 1)
