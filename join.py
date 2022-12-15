@@ -4,6 +4,7 @@ import sys
 from natsort import natsorted
 from ocr import ocr
 from print import putText
+from translation import translate
 
 sys.argv = ["join.py", "Archive.zip", "korean", "3.jpg,4.jpg"]
 # total arguments
@@ -85,6 +86,7 @@ for i in range(len(jk) - 1):
     cords.append(cord)
 print("here will be actual output")
 print(texts)
+translate(text)
 font = cv.FONT_HERSHEY_SIMPLEX
 for i in range(len(croppedImages)):
     putText(croppedImages[i], texts[i], cords[i], font, 1, (0, 0, 0), 1)
