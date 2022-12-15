@@ -14,6 +14,8 @@ def putText(image, text, cords, font, size, color, thickness,fileNumber):
 
         # characterWidth = cv.getTextSize(text[i], font, size, 1)
         (text_width, text_height), baseline = cv.getTextSize(text[i], font, size, thickness)
+        print("text_width", text_width)
+        print(text_width, text_height)
 
         cv.rectangle(image, (x, y), (x + w, y + h), (255, 255, 255), -1)
         charwidth = text_width / len(text[i])
@@ -21,7 +23,11 @@ def putText(image, text, cords, font, size, color, thickness,fileNumber):
         print(charLength, w, charwidth)
         # Draw the text on the image
         lines = textwrap.wrap(text[i], charLength)
+        print(lines)
+        k=y
         for line in lines:
-            cv.putText(image, line, (x, y), font, size, color, 1, cv.LINE_AA, False)
+            print(line)
+            cv.putText(image, line, (x, k), font, size, color, 1, cv.LINE_AA)
             cv.imwrite(f"files/output/{fileNumber}.jpg", image)
+            k += text_height
     return image
