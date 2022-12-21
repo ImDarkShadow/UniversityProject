@@ -3,6 +3,8 @@ import numpy as np
 from paddleocr import PaddleOCR, draw_ocr
 from pytesseract import *
 
+print("gjhj \"hjh")
+
 
 # Load image, grayscale, Gaussian blur, Otsu's threshold
 # image = cv.imread('1.jpg')
@@ -65,7 +67,9 @@ def ocr(image, lang):
         ec = cv.fitEllipse(c)
         cv.ellipse(mask, ec, (255, 255, 255), -1)
 
-    image = cv.bitwise_and(image, mask)
+    image2 = cv.bitwise_and(image, mask)
+    cv.imshow('image', image)
+    cv.waitKey()
 
     for c in cnts:
         x, y, w, h = cv.boundingRect(c)
@@ -83,11 +87,31 @@ def ocr(image, lang):
         # x, y, w, h = cv.boundingRect(j)
         # mask = np.zeros(image.shape, dtype=np.uint8)
         crop = image[y:y + h, x:x + w]
+        scaling_factor = 2
+
+        # Get the dimensions of the original image
+        original_height, original_width = crop.shape[:2]
+
+        # Calculate the dimensions of the scaled image
+        scaled_height = int(original_height * scaling_factor)
+        scaled_width = int(original_width * scaling_factor)
+
+        # Resize the image
+        newim = cv.resize(crop, (scaled_width, scaled_height), interpolation=cv.INTER_LINEAR)
+        gray = cv.cvtColor(newim, cv.COLOR_BGR2GRAY)
+        # newim = cv.threshold(gray, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)[1]
+
+        blurred = cv.GaussianBlur(gray, (3, 3), 0)
+
+        # Sharpen the image
+        sharpened = cv.addWeighted(blurred, 1.5, blurred, -0.5, 0)
 
         # gray = cv.cvtColor(crop, cv.COLOR_BGR2GRAY)
         # thresh = cv.threshold(
         #     gray, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
-        # cv.imshow('thresh', crop)
+        cv.imshow('thresh', crop)
+        cv.waitKey()
+        # cv.imshow('dilate', sharpened)
         # cv.waitKey()
         ROIs.append(crop)
         areas.append([x, y, w, h])

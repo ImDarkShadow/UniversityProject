@@ -89,8 +89,6 @@ print("here will be actual output")
 print(texts)
 trans = translate(*texts)
 print("here will be english translation")
-print(trans)
-uu = json.loads(trans)
 font = cv.FONT_HERSHEY_SIMPLEX
 for i in range(len(croppedImages)):
-    putText(croppedImages[i],uu[i], cords[i], font, .5, (0, 0, 0), 1,i)
+    putText(croppedImages[i],trans[i], cords[i], font, .5, (0, 0, 0), 1,i)
