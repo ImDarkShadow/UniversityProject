@@ -91,4 +91,4 @@ trans = translate(*texts)
 print("here will be english translation")
 font = cv.FONT_HERSHEY_SIMPLEX
 for i in range(len(croppedImages)):
-    putText(croppedImages[i],trans[i], cords[i], font, .5, (0, 0, 0), 1,i)
+    putText(croppedImages[i], trans[i], cords[i], font, .5, (0, 0, 0), 1, i)
