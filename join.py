@@ -7,7 +7,7 @@ from print import putText
 from translation import translate
 import json
 
-sys.argv = ["join.py", "Archive.zip", "korean", "3.jpg,4.jpg"]
+sys.argv = ["join.py", "Archive.zip", "en", "03.jpg"]
 # total arguments
 # n = len(sys.argv)
 sys.argv.pop(0)
@@ -77,12 +77,16 @@ while i < row:
 texts = []
 cords = []
 croppedImages = []
+kj = 0
 for i in range(len(jk) - 1):
+    #here needs to fixed the last  part will not crop thats needs to be corped last array item to end of row
     crop = image[jk[i]:jk[i + 1], 0:col]
     # cv.imshow('image', crop)
     # cv.waitKey()
+    cv.imwrite(f"files/steps/crop{i}.jpg", crop)
     croppedImages.append(crop)
-    cord, text = ocr(crop, lang)
+    cord, text = ocr(crop, lang,kj)
+    kj += 1
     texts.append(text)
     cords.append(cord)
 print("here will be actual output")

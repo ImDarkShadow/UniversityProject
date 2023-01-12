@@ -28,7 +28,10 @@ def translate(*text):
     # print(hj)
     # print(len(hj))
     # translate the list of strings
-    translated = translator.translate(result)
+    translated = translator.translate(result, dest='bn')
+    #save result in output.txt
+    file1 = open("output.txt", "a")
+    file1.write(translated.text)
     print(translated.text)
     translatedText = translated.text.split('{0}')
     translatedText.pop()

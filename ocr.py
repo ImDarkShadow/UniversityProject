@@ -3,7 +3,7 @@ import numpy as np
 from paddleocr import PaddleOCR, draw_ocr
 from pytesseract import *
 
-print("gjhj \"hjh")
+
 
 
 # Load image, grayscale, Gaussian blur, Otsu's threshold
@@ -30,7 +30,8 @@ print("gjhj \"hjh")
 # cv.waitKey()
 
 
-def ocr(image, lang):
+def ocr(image, lang,imnumber):
+    image3 = np.copy(image)
     # need to run only once to download and load model into memory
     ocr = PaddleOCR(use_angle_cls=True, lang=lang, use_gpu=False)
     # need to run only once to download and load model into memory
@@ -39,22 +40,23 @@ def ocr(image, lang):
     X = np.asarray(X, dtype='int')
     external_poly = np.array(X[0], dtype=np.int32)
     blankImage = np.zeros((image.shape[0], image.shape[1], 1), np.uint8)
-    blankImage[:] = 255
-    cv.fillPoly(blankImage, external_poly, (0, 0, 0))
 
-    blur = cv.GaussianBlur(blankImage, (7, 7), 0)
-    thresh = cv.threshold(
-        blur, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)[1]
+    cv.fillPoly(blankImage, external_poly, 255)
 
+    cv.imwrite(f"files/steps/blank{imnumber}.jpg", blankImage)
     #    Create rectangular structuring element and dilate
-    kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
-    dilate = cv.dilate(thresh, kernel, iterations=4)
+    kernel = cv.getStructuringElement(cv.MORPH_RECT, (1, 5))
+    dilate = cv.dilate(blankImage, kernel, iterations=5)
+    cv.imwrite(f"files/steps/dilate{imnumber}.jpg", dilate)
+
 
     # Find contours and draw rectangle
     if (lang == 'korean'):
         lang = 'kor'
     elif (lang == 'japanese'):
         lang = 'jpn'
+    elif (lang == 'en'):
+        lang = 'eng'
     elif (lang == 'ch'):
         lang = 'chi_sim'
     ROIs = []
@@ -64,12 +66,14 @@ def ocr(image, lang):
     mask = np.zeros(image.shape, dtype=np.uint8)
 
     for c in cnts:
+        if len(c) < 5:
+            continue
         ec = cv.fitEllipse(c)
         cv.ellipse(mask, ec, (255, 255, 255), -1)
 
     image2 = cv.bitwise_and(image, mask)
-    cv.imshow('image', image)
-    cv.waitKey()
+    #cv.imshow('image', image)
+    #cv.waitKey()
 
     for c in cnts:
         x, y, w, h = cv.boundingRect(c)
@@ -86,6 +90,7 @@ def ocr(image, lang):
         # j = j[0] if len(j) == 2 else j[1]
         # x, y, w, h = cv.boundingRect(j)
         # mask = np.zeros(image.shape, dtype=np.uint8)
+        cv.rectangle(image3, (x, y), (x + w, y + h), (150, 80, 255), 2)
         crop = image[y:y + h, x:x + w]
         scaling_factor = 2
 
@@ -109,14 +114,14 @@ def ocr(image, lang):
         # gray = cv.cvtColor(crop, cv.COLOR_BGR2GRAY)
         # thresh = cv.threshold(
         #     gray, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
-        cv.imshow('thresh', crop)
-        cv.waitKey()
+        #cv.imshow('thresh', crop)
+        #cv.waitKey()
         # cv.imshow('dilate', sharpened)
         # cv.waitKey()
         ROIs.append(crop)
         areas.append([x, y, w, h])
         print(x, y, w, h)
-
+    cv.imwrite(f"files/steps/outline{imnumber}.jpg", image3)
     extracted_text = []
     file1 = open("output.txt", "a")
     for i in range(len(ROIs)):
