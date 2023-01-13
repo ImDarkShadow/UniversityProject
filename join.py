@@ -80,6 +80,7 @@ croppedImages = []
 kj = 0
 for i in range(len(jk) - 1):
     #here needs to fixed the last  part will not crop thats needs to be corped last array item to end of row
+    #just need to append image height to the jk array
     crop = image[jk[i]:jk[i + 1], 0:col]
     # cv.imshow('image', crop)
     # cv.waitKey()
