@@ -3,11 +3,11 @@ import textwrap
 import numpy as np
 
 
-def putText(image, text, cords, font, size, color, thickness,fileNumber):
+def putText(image, text, cords, font, size, color, thickness, fileNumber):
     print("putText called")
     print(text)
-    for i in range(len(text)):
-        if text[i] == '':
+    for i in range(len(cords)):
+        if len(cords) == 0:
             continue
         x, y, w, h = cords[i]
         print(x, y, w, h)
@@ -24,7 +24,7 @@ def putText(image, text, cords, font, size, color, thickness,fileNumber):
         # Draw the text on the image
         lines = textwrap.wrap(text[i], charLength)
         print(lines)
-        k=y
+        k = y
         for line in lines:
             print(line)
             cv.putText(image, line, (x, k), font, size, color, 1, cv.LINE_AA)

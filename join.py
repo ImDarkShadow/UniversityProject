@@ -3,7 +3,7 @@ import numpy as np
 import sys
 from natsort import natsorted
 from ocr import ocr
-from print import putText
+from printRegional import putText
 from translation import translate
 import json
 
