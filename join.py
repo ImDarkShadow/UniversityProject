@@ -99,6 +99,9 @@ print("here will be english translation")
 font = cv.FONT_HERSHEY_SIMPLEX
 for i in range(len(croppedImages)):
     croppedImages[i] = cleanRaw(croppedImages[i], cords[i])
+j = 0
 for i in range(len(croppedImages)):
-    print(f'i in printRegional is {i}')
-    putText(croppedImages[i], trans[i], cords[i], font, .5, (0, 0, 0), 1, i)
+    if len(cords[i]) == 0:
+        continue
+    putText(croppedImages[i], trans[j], cords[i], font, .5, (0, 0, 0), 1, i)
+    j += 1
