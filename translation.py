@@ -12,24 +12,11 @@ def translate(*text):
     for inner_list in text:
         for string in inner_list:
             result += string
-            result += '{0}'
+            result += ' {0} '
     print(result)
-    # split the concatenated string into a list of strings
-    # trim a string
-    # yu = json.dumps(text, ensure_ascii=False)
-    # yu = yu.replace("'", "\'")
-    # result = result.strip()
-    # print(yu)
-    # print(type(yu))
-    # # result = " ".join(result.split())
-    # print(text)
-    # print(yu)
-    # print(result.split('#'))
-    # hj = result.split('#')
-    # print(hj)
-    # print(len(hj))
-    # translate the list of strings
+
     translated = translator.translate(result, dest='bn')
+    print(translated.text)
     # save result in output.txt
     file1 = open("output.txt", "a")
     file1.write(translated.text)
@@ -38,22 +25,6 @@ def translate(*text):
     translatedText.pop()
     print(translatedText)
     print(len(translatedText))
-    # hu = translated.text.replace("“", "\"")
-    # hu = hu.replace("”", "\"")
-    # hu = hu.replace("‘", "\'")
-    # hu = hu.replace("’", "\'")
-    # hu = hu.replace("'", "\'")
-    # hu = hu.replace('"', "\"")
-    # print(hu)
-    # lo = json.loads(hu)
-    # translatedText = []
-    # index = 0
-    # for i in range(len(text)):
-    #     tempText = []
-    #     for j in range(len(text[i])):
-    #         tempText.append(hj[index])
-    #         index += 1
-    #     translatedText.append(tempText)
     translatedTextArray = []
 
     counter = 0
