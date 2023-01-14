@@ -8,7 +8,7 @@ from translation import translate
 from cleanRawText import cleanRaw
 import json
 
-sys.argv = ["join.py", "Archive.zip", "en", "03.webp"]
+sys.argv = ["join.py", "tinified.zip", "en", "2.webp,3.jpg"]
 # total arguments
 # n = len(sys.argv)
 sys.argv.pop(0)
