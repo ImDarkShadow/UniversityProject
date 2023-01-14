@@ -46,7 +46,7 @@ def ocr(image, lang, imnumber):
 
     cv.imwrite(f"files/steps/blank{imnumber}.jpg", blankImage)
     #    Create rectangular structuring element and dilate
-    kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 5))
+    kernel = cv.getStructuringElement(cv.MORPH_RECT, (2, 5))
     dilate = cv.dilate(blankImage, kernel, iterations=5)
     cv.imwrite(f"files/steps/dilate{imnumber}.jpg", dilate)
 

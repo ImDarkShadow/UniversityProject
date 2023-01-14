@@ -12,17 +12,19 @@ def translate(*text):
     for inner_list in text:
         for string in inner_list:
             result += string
-            result += ' {0} '
+            result += ' \n '
     print(result)
+
+    #
 
     translated = translator.translate(result, dest='bn')
     print(translated.text)
     # save result in output.txt
-    file1 = open("output.txt", "a")
+    file1 = open("output.txt", "w")
     file1.write(translated.text)
     print(translated.text)
-    translatedText = translated.text.split('{0}')
-    translatedText.pop()
+    translatedText = translated.text.split('\n')
+    #translatedText.pop()
     print(translatedText)
     print(len(translatedText))
     translatedTextArray = []
