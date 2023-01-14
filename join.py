@@ -74,21 +74,22 @@ while i < row:
         i += 600
     else:
         i += 3
+jk.append(row)
 texts = []
 cords = []
 croppedImages = []
-kj = 0
+imageNumber = 0
 for i in range(len(jk) - 1):
-    #here needs to fixed the last  part will not crop thats needs to be corped last array item to end of row
-    #just need to append image height to the jk array
     crop = image[jk[i]:jk[i + 1], 0:col]
     # cv.imshow('image', crop)
     # cv.waitKey()
     cv.imwrite(f"files/steps/crop{i}.jpg", crop)
     croppedImages.append(crop)
-    cord, text = ocr(crop, lang,kj)
-    kj += 1
-    texts.append(text)
+    cord, text = ocr(crop, lang, imageNumber)
+    imageNumber += 1
+    print(type(text))
+    if len(text) != 0:
+        texts.append(text)
     cords.append(cord)
 print("here will be actual output")
 print(texts)

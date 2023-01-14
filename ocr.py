@@ -4,8 +4,6 @@ from paddleocr import PaddleOCR, draw_ocr
 from pytesseract import *
 
 
-
-
 # Load image, grayscale, Gaussian blur, Otsu's threshold
 # image = cv.imread('1.jpg')
 # gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
@@ -30,7 +28,7 @@ from pytesseract import *
 # cv.waitKey()
 
 
-def ocr(image, lang,imnumber):
+def ocr(image, lang, imnumber):
     image3 = np.copy(image)
     # need to run only once to download and load model into memory
     ocr = PaddleOCR(use_angle_cls=True, lang=lang, use_gpu=False)
@@ -38,17 +36,19 @@ def ocr(image, lang,imnumber):
     result = ocr.ocr(image, rec=False)
     X = np.array(result)
     X = np.asarray(X, dtype='int')
+    print("value of x")
+    print(X)
     external_poly = np.array(X[0], dtype=np.int32)
+
     blankImage = np.zeros((image.shape[0], image.shape[1], 1), np.uint8)
 
     cv.fillPoly(blankImage, external_poly, 255)
 
     cv.imwrite(f"files/steps/blank{imnumber}.jpg", blankImage)
     #    Create rectangular structuring element and dilate
-    kernel = cv.getStructuringElement(cv.MORPH_RECT, (1, 5))
+    kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 5))
     dilate = cv.dilate(blankImage, kernel, iterations=5)
     cv.imwrite(f"files/steps/dilate{imnumber}.jpg", dilate)
-
 
     # Find contours and draw rectangle
     if (lang == 'korean'):
@@ -72,26 +72,14 @@ def ocr(image, lang,imnumber):
         cv.ellipse(mask, ec, (255, 255, 255), -1)
 
     image2 = cv.bitwise_and(image, mask)
-    #cv.imshow('image', image)
-    #cv.waitKey()
+    # cv.imshow('image', image)
+    # cv.waitKey()
 
     for c in cnts:
         x, y, w, h = cv.boundingRect(c)
-        # ec = cv.fitEllipse(c)
-        # min = cv.minAreaRect(c)
-        # print(min)
-        # print(ec)
-        # # print(c)
-        # cv.ellipse(mask, ec, (255, 255, 255), -1)
-        # cropped = cv.bitwise_and(image, mask)
-        # cv.imshow('thresh', cropped)
-        # cv.waitKey()
-        # j = cv.findContours(cropped, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-        # j = j[0] if len(j) == 2 else j[1]
-        # x, y, w, h = cv.boundingRect(j)
-        # mask = np.zeros(image.shape, dtype=np.uint8)
         cv.rectangle(image3, (x, y), (x + w, y + h), (150, 80, 255), 2)
         crop = image[y:y + h, x:x + w]
+
         scaling_factor = 2
 
         # Get the dimensions of the original image
@@ -114,24 +102,30 @@ def ocr(image, lang,imnumber):
         # gray = cv.cvtColor(crop, cv.COLOR_BGR2GRAY)
         # thresh = cv.threshold(
         #     gray, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
-        #cv.imshow('thresh', crop)
-        #cv.waitKey()
+        # cv.imshow('thresh', crop)
+        # cv.waitKey()
         # cv.imshow('dilate', sharpened)
         # cv.waitKey()
+
         ROIs.append(crop)
         areas.append([x, y, w, h])
         print(x, y, w, h)
     cv.imwrite(f"files/steps/outline{imnumber}.jpg", image3)
     extracted_text = []
-    file1 = open("output.txt", "a")
-    for i in range(len(ROIs)):
-        text = pytesseract.image_to_string(ROIs[i], lang=lang)
+    file1 = open("output.txt", "w")
+    print(f'Number of ROIs: {len(ROIs)}')
+    # print x,y,w,h
+    # print(f'x ={x}, y ={y}, w ={w}, h ={h}')
+    # remove empty elements of ROIs
 
+    for i in range(len(ROIs)):
+        print(f'Number of ROIs inside OCR: {len(ROIs)}')
+        text = pytesseract.image_to_string(ROIs[i], lang=lang)
         lh = text.strip()
         lh = lh.replace("\n", " ")
         if lh != '':
             extracted_text.append(lh)
         else:
-            extracted_text.append('j')
+            extracted_text.append('are')
     print(areas)
     return areas, extracted_text
