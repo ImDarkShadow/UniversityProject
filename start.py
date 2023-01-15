@@ -1,21 +1,42 @@
+import os
+import zipfile
 import cv2 as cv
-
-import sys
 from natsort import natsorted
 from ocr import ocr
 from printRegional import putText
 from translation import translate
 from cleanRawText import cleanRaw
 
-sys.argv = ["join.py", "tinified.zip", "en", "2.webp,3.jpg"]
-# total arguments
-# n = len(sys.argv)
-sys.argv.pop(0)
-comicName = sys.argv[0]
-lang = sys.argv[1]
-sys.argv.pop(0)
-sys.argv.pop(0)
-comicFile = sys.argv[0].split(",")
+
+def getUserInput(text):
+    userInput = input(text)
+    return userInput
+
+
+directory = './files/raw'
+
+os.makedirs('./files/output', exist_ok=True)
+file_list = os.listdir(directory)
+
+for i, file in enumerate(file_list):
+    print(f'{i + 1}. {file}')
+
+comicNumber = getUserInput("Enter the comic number: ")
+comicName = file_list[int(comicNumber) - 1]
+print(f'Your chosen comic is : {comicName}')
+
+with zipfile.ZipFile(f'./files/raw/{comicName}', 'r') as zip_ref:
+    zip_ref.extractall(f'./files/temp/{comicName}')
+
+comicLanguage = getUserInput("Enter the comic language: ")
+chapterImages = os.listdir(f'./files/temp/{comicName}')
+print(chapterImages)
+
+os.makedirs(f'./files/output/{comicName}', exist_ok=True)
+
+lang = comicLanguage
+
+comicFile = chapterImages
 
 comicFile = natsorted(comicFile)
 print(comicFile)
@@ -37,25 +58,6 @@ blur = cv.GaussianBlur(gray, (7, 7), 0)
 thresh = cv.threshold(
     blur, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
 
-# # Create rectangular structuring element and dilate
-# kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
-# dilate = cv.dilate(thresh, kernel, iterations=4)
-
-# Find contours and draw rectangle
-# cnts = cv.findContours(dilate, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-# cnts = cnts[0] if len(cnts) == 2 else cnts[1]
-# for c in cnts:
-#     x, y, w, h = cv.boundingRect(c)
-#     cv.rectangle(image, (x, y), (x + w, y + h), (36, 255, 12), 2)
-# cv.imshow('thresh', thresh)
-# #cv.imshow('dilate', dilate)
-# cv.imshow('image', crop)
-# cv.waitKey()
-# print(image.shape[0])
-# a forloop to check the image row
-# for i in range(image.shape[0]):
-#     # a forloop to check the image column
-#     print(image[i])
 row = image.shape[0]
 col = image.shape[1]
 jk = [0]
@@ -102,5 +104,11 @@ j = 0
 for i in range(len(croppedImages)):
     if len(cords[i]) == 0:
         continue
-    putText(croppedImages[i], trans[j], cords[i], font, .5, (0, 0, 0), 1, i)
+    putText(croppedImages[i], trans[j], cords[i], font, .5, (0, 0, 0), 1, i, comicName)
     j += 1
+translatedImages = os.listdir(f'./files/output/{comicName}')
+
+with zipfile.ZipFile(f'./files/output/Tanslated- {comicName}', mode='w') as archive:
+    for file in translatedImages:
+        archive.write(f'./files/output/{comicName}/{file}',
+                      arcname=os.path.basename(f'./files/output/{comicName}/{file}'))

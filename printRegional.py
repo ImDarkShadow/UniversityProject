@@ -4,8 +4,9 @@ import numpy as np
 from PIL import ImageFont, ImageDraw, Image
 
 
-def putText(image, text, cords, font, size, color, thickness, fileNumber):
+def putText(image, text, cords, font, size, color, thickness, fileNumber, comicNmae):
     b, g, r, a = 0, 0, 0, 0
+    printedImages = []
 
     # Use simsum.ttc to write Chinese.
     fontpath = "./Atma-Regular.ttf"
@@ -41,5 +42,5 @@ def putText(image, text, cords, font, size, color, thickness, fileNumber):
             draw.text((x, k), line, font=font, fill=(b, g, r, a))
             k += text_height
         image = np.array(img_pil)
-    cv.imwrite(f"files/output/{fileNumber}.jpg", image)
-    return image
+    cv.imwrite(f"files/output/{comicNmae}/{fileNumber}.jpg", image)
+    return 0
