@@ -6,15 +6,8 @@ from PIL import ImageFont, ImageDraw, Image
 
 def putText(image, text, cords, font, size, color, thickness, fileNumber, comicNmae):
     b, g, r, a = 0, 0, 0, 0
-    printedImages = []
-
-    # Use simsum.ttc to write Chinese.
     fontpath = "./Atma-Regular.ttf"
     font = ImageFont.truetype(fontpath, 32)
-    # img_pil = Image.fromarray(img)
-    # draw = ImageDraw.Draw(img_pil)
-    # draw.text((50, 80), "যেহেতু মানব", font=font, fill=(b, g, r, a))
-    # img = np.array(img_pil)
     print("putText called")
     print(text)
     img_pil = Image.fromarray(image)

@@ -1,31 +1,7 @@
 import cv2 as cv
 import numpy as np
-from paddleocr import PaddleOCR, draw_ocr
+from paddleocr import PaddleOCR
 from pytesseract import *
-
-
-# Load image, grayscale, Gaussian blur, Otsu's threshold
-# image = cv.imread('1.jpg')
-# gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-# blur = cv.GaussianBlur(gray, (7, 7), 0)
-# thresh = cv.threshold(
-#     blur, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)[1]
-
-# # Create rectangular structuring element and dilate
-# kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
-# dilate = cv.dilate(thresh, kernel, iterations=4)
-
-# # Find contours and draw rectangle
-# cnts = cv.findContours(dilate, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-# cnts = cnts[0] if len(cnts) == 2 else cnts[1]
-# for c in cnts:
-#     x, y, w, h = cv.boundingRect(c)
-#     cv.rectangle(image, (x, y), (x + w, y + h), (36, 255, 12), 2)
-
-# cv.imshow('thresh', thresh)
-# cv.imshow('dilate', dilate)
-# cv.imshow('image', image)
-# cv.waitKey()
 
 
 def ocr(image, lang, imnumber):
@@ -114,9 +90,6 @@ def ocr(image, lang, imnumber):
     extracted_text = []
     file1 = open("output.txt", "w")
     print(f'Number of ROIs: {len(ROIs)}')
-    # print x,y,w,h
-    # print(f'x ={x}, y ={y}, w ={w}, h ={h}')
-    # remove empty elements of ROIs
 
     for i in range(len(ROIs)):
         print(f'Number of ROIs inside OCR: {len(ROIs)}')

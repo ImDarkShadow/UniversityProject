@@ -1,6 +1,5 @@
 import cv2 as cv
 import textwrap
-import numpy as np
 
 
 def putText(image, text, cords, font, size, color, thickness, fileNumber):

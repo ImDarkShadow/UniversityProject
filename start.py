@@ -16,6 +16,7 @@ def getUserInput(text):
 directory = './files/raw'
 
 os.makedirs('./files/output', exist_ok=True)
+os.makedirs('./files/steps', exist_ok=True)
 file_list = os.listdir(directory)
 
 for i, file in enumerate(file_list):

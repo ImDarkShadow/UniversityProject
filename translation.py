@@ -1,5 +1,3 @@
-import json
-
 from googletrans import Translator
 
 translator = Translator()
@@ -15,16 +13,11 @@ def translate(*text):
             result += ' \n '
     print(result)
 
-    #
-
     translated = translator.translate(result, dest='bn')
     print(translated.text)
     # save result in output.txt
-    file1 = open("output.txt", "w")
-    file1.write(translated.text)
     print(translated.text)
     translatedText = translated.text.split('\n')
-    #translatedText.pop()
     print(translatedText)
     print(len(translatedText))
     translatedTextArray = []
