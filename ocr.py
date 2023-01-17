@@ -46,10 +46,8 @@ def ocr(image, lang, imnumber):
             continue
         ec = cv.fitEllipse(c)
         cv.ellipse(mask, ec, (255, 255, 255), -1)
+        cv.bitwise_and(image, mask)
 
-    image2 = cv.bitwise_and(image, mask)
-    # cv.imshow('image', image)
-    # cv.waitKey()
 
     for c in cnts:
         x, y, w, h = cv.boundingRect(c)

@@ -6,7 +6,7 @@ from PIL import ImageFont, ImageDraw, Image
 
 def putText(image, text, cords, font, size, color, thickness, fileNumber, comicNmae):
     b, g, r, a = 0, 0, 0, 0
-    fontpath = "./Atma-Regular.ttf"
+    fontpath = "./fonts/Atma-Regular.ttf"
     font = ImageFont.truetype(fontpath, 32)
     print("putText called")
     print(text)
