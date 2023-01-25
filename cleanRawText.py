@@ -1,7 +1,7 @@
 import cv2 as cv
 
 
-def cleanRaw(image, cords):
+def cleanRaw(image, cords, color):
     for i in range(len(cords)):
         if len(cords) == 0:
             return image

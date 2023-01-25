@@ -22,6 +22,8 @@ file_list = os.listdir(directory)
 for i, file in enumerate(file_list):
     print(f'{i + 1}. {file}')
 
+
+
 comicNumber = getUserInput("Enter the comic number: ")
 comicName = file_list[int(comicNumber) - 1]
 print(f'Your chosen comic is : {comicName}')
@@ -34,7 +36,8 @@ chapterImages = os.listdir(f'./files/temp/{comicName}')
 print(chapterImages)
 
 os.makedirs(f'./files/output/{comicName}', exist_ok=True)
-
+isComplexBG = (getUserInput("Is there complex text background? (y/n): ") == 'y')
+print(isComplexBG)
 lang = comicLanguage
 
 comicFile = chapterImages
