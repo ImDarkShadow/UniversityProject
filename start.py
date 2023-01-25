@@ -22,8 +22,6 @@ file_list = os.listdir(directory)
 for i, file in enumerate(file_list):
     print(f'{i + 1}. {file}')
 
-
-
 comicNumber = getUserInput("Enter the comic number: ")
 comicName = file_list[int(comicNumber) - 1]
 print(f'Your chosen comic is : {comicName}')
@@ -102,13 +100,15 @@ print(texts)
 trans = translate(*texts)
 print("here will be english translation")
 font = cv.FONT_HERSHEY_SIMPLEX
+colors = []
 for i in range(len(croppedImages)):
-    croppedImages[i] = cleanRaw(croppedImages[i], cords[i])
+    croppedImages[i], tempColor = cleanRaw(croppedImages[i], cords[i], isComplexBG)
+    colors.append(tempColor)
 j = 0
 for i in range(len(croppedImages)):
     if len(cords[i]) == 0:
         continue
-    putText(croppedImages[i], trans[j], cords[i], font, .5, (0, 0, 0), 1, i, comicName)
+    putText(croppedImages[i], trans[j], cords[i], font, .5, 1, i, comicName, colors[i], isComplexBG)
     j += 1
 translatedImages = os.listdir(f'./files/output/{comicName}')
 

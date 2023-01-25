@@ -45,28 +45,8 @@
 import cv2
 import numpy as np
 
-# Load the image
-img = cv2.imread("image.jpg")
-
-# Reshape the image to a 2D array of pixels
-pixels = img.reshape((-1, 3))
-
-# Convert the pixel values from 8-bit integers to floats
-pixels = np.float32(pixels)
-
-# Define the number of clusters (i.e. colors)
-num_clusters = 80
-
-# Perform k-means clustering
-criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 200, .1)
-_, labels, palette = cv2.kmeans(pixels, num_clusters, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
-
-# Count the number of pixels in each cluster
-cluster_counts = np.bincount(labels.ravel())
-print(cluster_counts)
-# Find the index of the cluster with the most pixels
-top_cluster = np.argmax(cluster_counts)
-print(top_cluster)
-# Get the colors of the pixels in the top cluster
-top_colors = palette[top_cluster]
-print(top_colors)
+a = cv2.imread('image.jpg', cv2.IMREAD_UNCHANGED)
+a2D = a.reshape(-1, a.shape[-1])
+col_range = (256, 256, 256)  # generically : a2D.max(0)+1
+a1D = np.ravel_multi_index(a2D.T, col_range)
+print(np.unravel_index(np.bincount(a1D).argmax(), col_range))

@@ -4,7 +4,7 @@ import numpy as np
 from PIL import ImageFont, ImageDraw, Image
 
 
-def putText(image, text, cords, font, size, color, thickness, fileNumber, comicNmae):
+def putText(image, text, cords, font, size, thickness, fileNumber, comicNmae, colors, isComplexBG):
     b, g, r, a = 0, 0, 0, 0
     fontpath = "./fonts/Atma-Regular.ttf"
     font = ImageFont.truetype(fontpath, 32)
@@ -29,6 +29,8 @@ def putText(image, text, cords, font, size, color, thickness, fileNumber, comicN
         lines = textwrap.wrap(text[i], charLength)
         print(lines)
         k = y
+        if isComplexBG:
+            b, g, r = 255 - colors[i][0], 255 - colors[i][1], 255 - colors[i][2]
         for line in lines:
             print(line)
             # cv.putText(image, line, (x, k), font, size, color, 1, cv.LINE_AA)
