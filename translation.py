@@ -4,6 +4,17 @@ translator = Translator()
 
 
 def translate(*text):
+    """
+    The translate function takes a list of lists as an argument.
+    It then iterates over the inner lists and concatenates each string in the inner list.
+    The result is saved in a variable called 'result'.
+    Then, using Google Translate API, it translates 'result' into Bengali language and saves it to another variable called translatedText.
+    Finally, it splits translatedText by newline character ('\n') and stores each line into an array inside translatedTextArray.
+
+    :param *text: Pass a variable number of arguments to the function
+    :return: A list of lists containing the translated text
+    :doc-author: Trelent
+    """
     print(len(text))
     result = ''
     # iterate over the inner lists and concatenate each string

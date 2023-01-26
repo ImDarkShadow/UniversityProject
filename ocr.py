@@ -4,7 +4,18 @@ from paddleocr import PaddleOCR
 from pytesseract import *
 
 
-def ocr(image, lang, imnumber):
+def ocr(image, lang, imageNumber):
+    """
+    The ocr function takes in an image and a language, runs the PaddleOCR engine on it,
+    and returns the bounding boxes of each character in the image.Then uses Tessaract to extract the text.
+    
+    
+    :param image: Pass the image to be used for ocr
+    :param lang: Specify the language of the text in the image
+    :param imageNumber: To keep track of the image number
+    :return: The areas and extracted text
+    :doc-author: Trelent
+    """
     image3 = np.copy(image)
     # need to run only once to download and load model into memory
     ocr = PaddleOCR(use_angle_cls=True, lang=lang, use_gpu=False)
@@ -20,11 +31,11 @@ def ocr(image, lang, imnumber):
 
     cv.fillPoly(blankImage, external_poly, 255)
 
-    cv.imwrite(f"files/steps/blank{imnumber}.jpg", blankImage)
+    cv.imwrite(f"files/steps/blank{imageNumber}.jpg", blankImage)
     #    Create rectangular structuring element and dilate
     kernel = cv.getStructuringElement(cv.MORPH_RECT, (2, 5))
     dilate = cv.dilate(blankImage, kernel, iterations=5)
-    cv.imwrite(f"files/steps/dilate{imnumber}.jpg", dilate)
+    cv.imwrite(f"files/steps/dilate{imageNumber}.jpg", dilate)
 
     # Find contours and draw rectangle
     if (lang == 'korean'):
@@ -47,7 +58,6 @@ def ocr(image, lang, imnumber):
         ec = cv.fitEllipse(c)
         cv.ellipse(mask, ec, (255, 255, 255), -1)
         cv.bitwise_and(image, mask)
-
 
     for c in cnts:
         x, y, w, h = cv.boundingRect(c)
@@ -84,7 +94,7 @@ def ocr(image, lang, imnumber):
         ROIs.append(crop)
         areas.append([x, y, w, h])
         print(x, y, w, h)
-    cv.imwrite(f"files/steps/outline{imnumber}.jpg", image3)
+    cv.imwrite(f"files/steps/outline{imageNumber}.jpg", image3)
     extracted_text = []
     file1 = open("output.txt", "w")
     print(f'Number of ROIs: {len(ROIs)}')

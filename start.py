@@ -9,6 +9,15 @@ from cleanRawText import cleanRaw
 
 
 def getUserInput(text):
+    """
+    The getUserInput function prompts the user for input and returns it as a string.
+        It is used to prompt the user for their input, which will be stored in a variable called 'userInput'.
+
+
+    :param text: Display a message to the user
+    :return: The user input
+    :doc-author: Trelent
+    """
     userInput = input(text)
     return userInput
 
@@ -108,7 +117,7 @@ j = 0
 for i in range(len(croppedImages)):
     if len(cords[i]) == 0:
         continue
-    putText(croppedImages[i], trans[j], cords[i], font, .5, 1, i, comicName, colors[i], isComplexBG)
+    putText(croppedImages[i], trans[j], cords[i], i, comicName, colors[i], isComplexBG)
     j += 1
 translatedImages = os.listdir(f'./files/output/{comicName}')
 
