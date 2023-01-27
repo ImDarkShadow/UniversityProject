@@ -1,19 +1,16 @@
 import os
-import zipfile
 import cv2 as cv
 from natsort import natsorted
-from ocr import ocr
+
 from printRegional import putText
 from translation import translate
-from cleanRawText import cleanRaw
 from utils import getUserInput, createFolder, getFiles, print_comic_list, extract_comic, read_images, \
-    get_crop_coordinates
+    get_crop_coordinates, crop_image, get_dominant_colors, zip_files
 
 # Create the output folder if it doesn't exist
 os.makedirs('./files/output', exist_ok=True)
 
-directory = './files/raw'
-file_list = getFiles(directory)
+file_list = getFiles('./files/raw')
 createFolder('./files/temp')
 createFolder('./files/steps')
 
@@ -44,33 +41,16 @@ row = image.shape[0]
 col = image.shape[1]
 
 crop_array = get_crop_coordinates(image, row, col)
-texts = []
-cords = []
-croppedImages = []
-imageNumber = 0
-for i in range(len(crop_array) - 1):
-    crop = image[crop_array[i]:crop_array[i + 1], 0:col]
-    cv.imwrite(f"files/steps/crop{i}.jpg", crop)
-    croppedImages.append(crop)
-    cord, text = ocr(crop, lang, imageNumber)
-    imageNumber += 1
-    if len(text) != 0:
-        texts.append(text)
-    cords.append(cord)
+
+croppedImages, texts, cords = crop_image(crop_array, image, col, lang)
 trans = translate(*texts)
-colors = []
-for i in range(len(croppedImages)):
-    croppedImages[i], tempColor = cleanRaw(croppedImages[i], cords[i], isComplexBG)
-    colors.append(tempColor)
+
+colors = get_dominant_colors(croppedImages, *cords, isComplexBG=isComplexBG)
 j = 0
 for i in range(len(croppedImages)):
     if len(cords[i]) == 0:
         continue
     putText(croppedImages[i], trans[j], cords[i], i, comicName, colors[i], isComplexBG)
     j += 1
-translatedImages = os.listdir(f'./files/output/{comicName}')
 
-with zipfile.ZipFile(f'./files/output/Tanslated- {comicName}', mode='w') as archive:
-    for file in translatedImages:
-        archive.write(f'./files/output/{comicName}/{file}',
-                      arcname=os.path.basename(f'./files/output/{comicName}/{file}'))
+zip_files(comicName)

@@ -2,6 +2,8 @@ import shutil
 import os
 import zipfile
 import cv2 as cv
+from ocr import ocr
+from cleanRawText import cleanRaw
 
 
 def getUserInput(text):
@@ -119,3 +121,36 @@ def get_crop_coordinates(image, row, col):
             i += 3
     crop_array.append(row)
     return crop_array
+
+
+def crop_image(crop_array, image, col, lang):
+    texts = []
+    cords = []
+    croppedImages = []
+    imageNumber = 0
+    for i in range(len(crop_array) - 1):
+        crop = image[crop_array[i]:crop_array[i + 1], 0:col]
+        cv.imwrite(f"files/steps/crop{i}.jpg", crop)
+        croppedImages.append(crop)
+        cord, text = ocr(crop, lang, imageNumber)
+        imageNumber += 1
+        if len(text) != 0:
+            texts.append(text)
+        cords.append(cord)
+    return croppedImages, texts, cords
+
+
+def get_dominant_colors(croppedImages, *cords, isComplexBG):
+    colors = []
+    for i in range(len(croppedImages)):
+        croppedImages[i], tempColor = cleanRaw(croppedImages[i], cords[i], isComplexBG)
+        colors.append(tempColor)
+    return colors
+
+
+def zip_files(comicName):
+    translatedImages = getFiles(f'./files/output/{comicName}')
+    with zipfile.ZipFile(f'./files/output/Tanslated- {comicName}', mode='w') as archive:
+        for file in translatedImages:
+            archive.write(f'./files/output/{comicName}/{file}',
+                          arcname=os.path.basename(f'./files/output/{comicName}/{file}'))
