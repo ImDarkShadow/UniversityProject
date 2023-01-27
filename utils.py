@@ -4,6 +4,7 @@ import zipfile
 import cv2 as cv
 from ocr import ocr
 from cleanRawText import cleanRaw
+from printRegional import putText
 
 
 def getUserInput(text):
@@ -154,3 +155,12 @@ def zip_files(comicName):
         for file in translatedImages:
             archive.write(f'./files/output/{comicName}/{file}',
                           arcname=os.path.basename(f'./files/output/{comicName}/{file}'))
+
+
+def print_comic_text(croppedImages, cords, comicName, colors, isComplexBG, trans):
+    j = 0
+    for i in range(len(croppedImages)):
+        if len(cords[i]) == 0:
+            continue
+        putText(croppedImages[i], trans[j], cords[i], i, comicName, colors[i], isComplexBG)
+        j += 1

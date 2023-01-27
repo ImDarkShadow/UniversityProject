@@ -1,11 +1,7 @@
-import os
-import cv2 as cv
 from natsort import natsorted
 
-from printRegional import putText
 from translation import translate
-from utils import getUserInput, createFolder, getFiles, print_comic_list, extract_comic, read_images, \
-    get_crop_coordinates, crop_image, get_dominant_colors, zip_files
+from utils import *
 
 # Create the output folder if it doesn't exist
 os.makedirs('./files/output', exist_ok=True)
@@ -46,11 +42,7 @@ croppedImages, texts, cords = crop_image(crop_array, image, col, lang)
 trans = translate(*texts)
 
 colors = get_dominant_colors(croppedImages, *cords, isComplexBG=isComplexBG)
-j = 0
-for i in range(len(croppedImages)):
-    if len(cords[i]) == 0:
-        continue
-    putText(croppedImages[i], trans[j], cords[i], i, comicName, colors[i], isComplexBG)
-    j += 1
+
+print_comic_text(croppedImages, cords, comicName, colors, isComplexBG, trans)
 
 zip_files(comicName)
