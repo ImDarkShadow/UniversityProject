@@ -125,6 +125,18 @@ def get_crop_coordinates(image, row, col):
 
 
 def crop_image(crop_array, image, col, lang):
+    """
+    The crop_image function takes an image and crops it into a smaller image based on the crop_array.
+    It then saves each cropped image to a file called &quot;crop#.jpg&quot; where # is the number of that specific
+    image in the array, and returns an array of all cropped images as well as their coordinates.
+
+    :param crop_array: Define the start and end of each row
+    :param image: Specify the image to be processed
+    :param col: Specify the width of the image
+    :param lang: Specify the language of the text in the image
+    :return: The cropped images, the text in those images and the coordinates of each image
+    :doc-author: Trelent
+    """
     texts = []
     cords = []
     croppedImages = []
@@ -141,7 +153,18 @@ def crop_image(crop_array, image, col, lang):
     return croppedImages, texts, cords
 
 
-def get_dominant_colors(croppedImages, *cords, isComplexBG):
+def clean_raw_text(croppedImages, *cords, isComplexBG):
+    """
+    The clean_raw_text function takes in a list of cropped images and the coordinates
+    of the bounding box for each image. It then returns a list of cleaned images,
+    where each image is just the text within its respective bounding box.
+
+    :param croppedImages: Store the images that are cropped from the original image
+    :param *cords: Pass in the coordinates of the bounding box that we want to crop
+    :param isComplexBG: Determine whether the background is complex or not
+    :return: A list of the colors of each image
+    :doc-author: Trelent
+    """
     colors = []
     for i in range(len(croppedImages)):
         croppedImages[i], tempColor = cleanRaw(croppedImages[i], cords[i], isComplexBG)
@@ -150,6 +173,14 @@ def get_dominant_colors(croppedImages, *cords, isComplexBG):
 
 
 def zip_files(comicName):
+    """
+    The zip_files function creates a zip file of the translated images.
+    The function takes one argument, comicName, which is the name of the comic folder.
+
+    :param comicName: Create a zip file with the translated images
+    :return: The zip file
+    :doc-author: Trelent
+    """
     translatedImages = getFiles(f'./files/output/{comicName}')
     with zipfile.ZipFile(f'./files/output/Tanslated- {comicName}', mode='w') as archive:
         for file in translatedImages:
@@ -158,6 +189,20 @@ def zip_files(comicName):
 
 
 def print_comic_text(croppedImages, cords, comicName, colors, isComplexBG, trans):
+    """
+    The print_comic_text function takes in the cropped images, their corresponding text
+    coordinates, and the comic name. It then iterates through each image and draws a box around
+    the text with its corresponding color. The function also writes out the text to each image.
+
+    :param croppedImages: Store the cropped images of each panel
+    :param cords: Store the coordinates of the text that is to be printed on each image
+    :param comicName: Name the comic
+    :param colors: Determine the color of the text
+    :param isComplexBG: Determine whether the background is complex or not
+    :param trans: Store the text that will be printed on each panel
+    :return: The text of the comic
+    :doc-author: Trelent
+    """
     j = 0
     for i in range(len(croppedImages)):
         if len(cords[i]) == 0:
