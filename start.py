@@ -57,11 +57,7 @@ for i in range(len(crop_array) - 1):
     if len(text) != 0:
         texts.append(text)
     cords.append(cord)
-print("here will be actual output")
-print(texts)
 trans = translate(*texts)
-print("here will be english translation")
-font = cv.FONT_HERSHEY_SIMPLEX
 colors = []
 for i in range(len(croppedImages)):
     croppedImages[i], tempColor = cleanRaw(croppedImages[i], cords[i], isComplexBG)
