@@ -41,7 +41,7 @@ crop_array = get_crop_coordinates(image, row, col)
 croppedImages, texts, cords = crop_image(crop_array, image, col, lang)
 trans = translate(*texts)
 
-colors = clean | clean_raw_text(croppedImages, *cords, isComplexBG=isComplexBG)
+colors = clean_raw_text(croppedImages, *cords, isComplexBG=isComplexBG)
 
 print_comic_text(croppedImages, cords, comicName, colors, isComplexBG, trans)
 
