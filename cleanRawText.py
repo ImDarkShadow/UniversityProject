@@ -28,6 +28,6 @@ def cleanRaw(image, cords, isComplexBG):
         else:
             color = (255, 255, 255)
             colors.append(color)
-        print(f'color: {color}')
+        # print(f'color: {color}')
         cv.rectangle(image, (x, y), (x + w, y + h), color, -1)
     return image, colors

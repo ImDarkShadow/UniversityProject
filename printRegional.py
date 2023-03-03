@@ -24,31 +24,31 @@ def putText(image, textArray, cordArray, fileNumber, comicNmae, colors, isComple
     b, g, r, a = 0, 0, 0, 0
     fontpath = "./fonts/Atma-Regular.ttf"
     font = ImageFont.truetype(fontpath, 32)
-    print("putText called")
-    print(textArray)
+    # print("putText called")
+    # print(textArray)
     img_pil = Image.fromarray(image)
     draw = ImageDraw.Draw(img_pil)
     for i in range(len(cordArray)):
         if len(cordArray) == 0:
             return image
         x, y, w, h = cordArray[i]
-        print(x, y, w, h)
+        # print(x, y, w, h)
         text_width, text_height = draw.textsize(textArray[i], font)
 
-        print("text_width", text_width)
-        print(text_width, text_height)
+        # print("text_width", text_width)
+        # print(text_width, text_height)
 
         charwidth = text_width / len(textArray[i])
         charLength = int(w / charwidth)
-        print(charLength, w, charwidth)
+        # print(charLength, w, charwidth)
         # Draw the text on the image
         lines = textwrap.wrap(textArray[i], charLength)
-        print(lines)
+        # print(lines)
         k = y
         if isComplexBG:
             b, g, r = 255 - colors[i][0], 255 - colors[i][1], 255 - colors[i][2]
         for line in lines:
-            print(line)
+            # print(line)
             # cv.putText(image, line, (x, k), font, size, color, 1, cv.LINE_AA)
             draw.text((x, k), line, font=font, fill=(b, g, r, a))
             k += text_height

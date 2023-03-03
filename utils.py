@@ -82,7 +82,7 @@ def read_images(images):
     """
     img = []
     for i in images:
-        print(i)
+        # print(i)
         img.append(cv.imread(i))
     return img
 

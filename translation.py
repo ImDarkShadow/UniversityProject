@@ -15,19 +15,18 @@ def translate(*text):
     :return: A list of lists containing the translated text
     :doc-author: Trelent
     """
-    print(len(text))
+    # print(len(text))
     result = ''
     # iterate over the inner lists and concatenate each string
     for inner_list in text:
         for string in inner_list:
             result += string
             result += ' \n '
-    print(result)
+    # print(result)
 
     translated = translator.translate(result, dest='bn')
-    print(translated.text)
+    # print(translated.text)
     # save result in output.txt
-    print(translated.text)
     translatedText = translated.text.split('\n')
     print(translatedText)
     print(len(translatedText))
@@ -36,10 +35,10 @@ def translate(*text):
     counter = 0
     for i in range(len(text)):
         tempArray = []
-        print(f'length of inner list {i} is {len(text[i])}')
+        # print(f'length of inner list {i} is {len(text[i])}')
         for j in range(len(text[i])):
-            print(f'counter is {counter}')
-            print(f'j is {j}')
+            # print(f'counter is {counter}')
+            # print(f'j is {j}')
             # translatedTextArray[i][j] = translatedText[counter]
             tempArray.append(translatedText[counter])
             counter += 1

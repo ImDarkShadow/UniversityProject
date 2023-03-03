@@ -18,13 +18,13 @@ def ocr(image, lang, imageNumber):
     """
     image3 = np.copy(image)
     # need to run only once to download and load model into memory
-    ocr = PaddleOCR(use_angle_cls=True, lang=lang, use_gpu=False)
+    ocr = PaddleOCR(use_angle_cls=True, lang=lang, use_gpu=False, show_log=False)
     # need to run only once to download and load model into memory
     result = ocr.ocr(image, rec=False)
     X = np.array(result)
     X = np.asarray(X, dtype='int')
-    print("value of x")
-    print(X)
+    # print("value of x")
+    # print(X)
     external_poly = np.array(X[0], dtype=np.int32)
 
     blankImage = np.zeros((image.shape[0], image.shape[1], 1), np.uint8)
@@ -93,14 +93,14 @@ def ocr(image, lang, imageNumber):
 
         ROIs.append(crop)
         areas.append([x, y, w, h])
-        print(x, y, w, h)
+        # print(x, y, w, h)
     cv.imwrite(f"files/steps/outline{imageNumber}.jpg", image3)
     extracted_text = []
     file1 = open("output.txt", "w")
-    print(f'Number of ROIs: {len(ROIs)}')
+    # print(f'Number of ROIs: {len(ROIs)}')
 
     for i in range(len(ROIs)):
-        print(f'Number of ROIs inside OCR: {len(ROIs)}')
+        # print(f'Number of ROIs inside OCR: {len(ROIs)}')
         text = pytesseract.image_to_string(ROIs[i], lang=lang)
         lh = text.strip()
         lh = lh.replace("\n", " ")
@@ -108,5 +108,5 @@ def ocr(image, lang, imageNumber):
             extracted_text.append(lh)
         else:
             extracted_text.append('are')
-    print(areas)
+    # print(areas)
     return areas, extracted_text
