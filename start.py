@@ -1,4 +1,5 @@
 from natsort import natsorted
+from halo import Halo
 
 from translation import translate
 from utils import *
@@ -38,7 +39,8 @@ col = image.shape[1]
 
 crop_array = get_crop_coordinates(image, row, col)
 
-croppedImages, texts, cords = crop_image(crop_array, image, col, lang)
+croppedImages = crop_image(crop_array, image, col)
+texts, cords = ocr_images(croppedImages, lang)
 trans = translate(*texts)
 
 colors = clean_raw_text(croppedImages, *cords, isComplexBG=isComplexBG)

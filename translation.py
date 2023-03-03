@@ -28,8 +28,8 @@ def translate(*text):
     # print(translated.text)
     # save result in output.txt
     translatedText = translated.text.split('\n')
-    print(translatedText)
-    print(len(translatedText))
+    # print(translatedText)
+    # print(len(translatedText))
     translatedTextArray = []
 
     counter = 0

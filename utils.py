@@ -124,7 +124,7 @@ def get_crop_coordinates(image, row, col):
     return crop_array
 
 
-def crop_image(crop_array, image, col, lang):
+def crop_image(crop_array, image, col):
     """
     The crop_image function takes an image and crops it into a smaller image based on the crop_array.
     It then saves each cropped image to a file called &quot;crop#.jpg&quot; where # is the number of that specific
@@ -145,12 +145,27 @@ def crop_image(crop_array, image, col, lang):
         crop = image[crop_array[i]:crop_array[i + 1], 0:col]
         cv.imwrite(f"files/steps/crop{i}.jpg", crop)
         croppedImages.append(crop)
-        cord, text = ocr(crop, lang, imageNumber)
+    return croppedImages
+
+
+def ocr_images(croppedImages, lang):
+    """
+    The ocr_images function takes in a list of cropped images and returns a list of the text in each image.
+
+    :param croppedImages: Specify the images to be processed
+    :param lang: Specify the language of the text in the image
+    :return: A list of the text in each image
+    """
+    texts = []
+    cords = []
+    imageNumber = 0
+    for i in croppedImages:
+        cord, text = ocr(i, lang, imageNumber)
         imageNumber += 1
         if len(text) != 0:
             texts.append(text)
         cords.append(cord)
-    return croppedImages, texts, cords
+    return texts, cords
 
 
 def clean_raw_text(croppedImages, *cords, isComplexBG):
