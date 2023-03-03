@@ -28,7 +28,6 @@ lang = comicLanguage
 comicFile = chapterImages
 
 comicFile = natsorted(comicFile)
-print(comicFile)
 images = [
     "./files/temp/" + comicName + "/" + x for x in comicFile]
 spinner = Halo(text='Loading Images', spinner='dots')
