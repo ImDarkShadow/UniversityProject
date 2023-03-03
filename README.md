@@ -17,7 +17,7 @@
 - `python3 start.py`
 - output at output folder as zip
 
-### Todo
+### Todo(not in any specific order)
 
 - [ ] Multi-language Support
 - [ ] Use Content aware background
@@ -25,3 +25,4 @@
 - [ ] Multi Engine OCR
 - [ ] Multi Engine Translation
 - [ ] Exclude SFX text from translation
+- [ ] Add spell check
