@@ -4,25 +4,25 @@ from halo import Halo
 from translation import translate
 from utils import *
 
-# Create the output folder if it doesn't exist
-os.makedirs('./files/output', exist_ok=True)
-
 file_list = getFiles('./files/raw')
-createFolder('./files/temp')
-createFolder('./files/steps')
 
 print_comic_list(file_list)
 
 comicNumber = getUserInput("Enter the comic number: ")
 comicName = file_list[int(comicNumber) - 1]
 
-extract_comic(comicName)
-
-comicLanguage = getUserInput("Enter the comic language: ")
+comicLanguage = 'en'
 chapterImages = getFiles(f'./files/temp/{comicName}')
 
 createFolder(f'./files/output/{comicName}')
 isComplexBG = (getUserInput("Is there complex text background? (y/n): ") == 'y')
+
+extract_comic(comicName)
+
+# Create the output folder if it doesn't exist
+os.makedirs('./files/output', exist_ok=True)
+createFolder('./files/temp')
+createFolder('./files/steps')
 lang = comicLanguage
 
 comicFile = chapterImages
