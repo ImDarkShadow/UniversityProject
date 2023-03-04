@@ -17,17 +17,30 @@ chapterImages = getFiles(f'./files/temp/{comicName}')
 createFolder(f'./files/output/{comicName}')
 isComplexBG = (getUserInput("Is there complex text background? (y/n): ") == 'y')
 
-extract_comic(comicName)
+spinner = Halo(text='Creating Necessary Folders', spinner='dots')
+spinner.start()
 
 # Create the output folder if it doesn't exist
 os.makedirs('./files/output', exist_ok=True)
 createFolder('./files/temp')
 createFolder('./files/steps')
+
+spinner.succeed('Folders Created')
+
+spinner = Halo(text='Extracting Comic', spinner='dots')
+spinner.start()
+
+extract_comic(comicName)
+spinner.succeed('Comic Extracted')
+
 lang = comicLanguage
 
 comicFile = chapterImages
 
+spinner = Halo(text='Sorting Chapter Images', spinner='dots')
+spinner.start()
 comicFile = natsorted(comicFile)
+spinner.succeed('Chapter Images Sorted')
 images = [
     "./files/temp/" + comicName + "/" + x for x in comicFile]
 spinner = Halo(text='Loading Images', spinner='dots')
