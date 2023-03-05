@@ -11,9 +11,6 @@ print_comic_list(file_list)
 comicNumber = getUserInput("Enter the comic number: ")
 comicName = file_list[int(comicNumber) - 1]
 
-comicLanguage = 'en'
-chapterImages = getFiles(f'./files/temp/{comicName}')
-
 createFolder(f'./files/output/{comicName}')
 isComplexBG = (getUserInput("Is there complex text background? (y/n): ") == 'y')
 
@@ -32,6 +29,8 @@ spinner.start()
 
 extract_comic(comicName)
 spinner.succeed('Comic Extracted')
+comicLanguage = 'en'
+chapterImages = getFiles(f'./files/temp/{comicName}')
 
 lang = comicLanguage
 
