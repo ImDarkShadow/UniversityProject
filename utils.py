@@ -2,7 +2,7 @@ import shutil
 import os
 import zipfile
 import cv2 as cv
-from ocr import ocr
+from get_textbox import ocr
 from cleanRawText import cleanRaw
 from printRegional import putText
 

@@ -4,7 +4,7 @@ from paddleocr import PaddleOCR
 from pytesseract import *
 
 
-def ocr(image, lang, imageNumber):
+def get_textbox(image, lang, imageNumber):
     """
     The ocr function takes in an image and a language, runs the PaddleOCR engine on it,
     and returns the bounding boxes of each character in the image.Then uses Tessaract to extract the text.
@@ -18,7 +18,7 @@ def ocr(image, lang, imageNumber):
     """
     image3 = np.copy(image)
     # need to run only once to download and load model into memory
-    ocr = PaddleOCR(use_angle_cls=True, lang=lang, use_gpu=False, show_log=False)
+    ocr = PaddleOCR(use_angle_cls=True, use_gpu=False, show_log=False)
     # need to run only once to download and load model into memory
     result = ocr.ocr(image, rec=False)
     X = np.array(result)
@@ -64,24 +64,8 @@ def ocr(image, lang, imageNumber):
         cv.rectangle(image3, (x, y), (x + w, y + h), (150, 80, 255), 2)
         crop = image[y:y + h, x:x + w]
 
-        scaling_factor = 2
-
-        # Get the dimensions of the original image
-        original_height, original_width = crop.shape[:2]
-
-        # Calculate the dimensions of the scaled image
-        scaled_height = int(original_height * scaling_factor)
-        scaled_width = int(original_width * scaling_factor)
-
-        # Resize the image
-        newim = cv.resize(crop, (scaled_width, scaled_height), interpolation=cv.INTER_LINEAR)
-        gray = cv.cvtColor(newim, cv.COLOR_BGR2GRAY)
+        gray = cv.cvtColor(crop, cv.COLOR_BGR2GRAY)
         # newim = cv.threshold(gray, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)[1]
-
-        blurred = cv.GaussianBlur(gray, (3, 3), 0)
-
-        # Sharpen the image
-        sharpened = cv.addWeighted(blurred, 1.5, blurred, -0.5, 0)
 
         # gray = cv.cvtColor(crop, cv.COLOR_BGR2GRAY)
         # thresh = cv.threshold(
@@ -95,18 +79,5 @@ def ocr(image, lang, imageNumber):
         areas.append([x, y, w, h])
         # print(x, y, w, h)
     cv.imwrite(f"files/steps/outline{imageNumber}.jpg", image3)
-    extracted_text = []
-    file1 = open("output.txt", "w")
-    # print(f'Number of ROIs: {len(ROIs)}')
 
-    for i in range(len(ROIs)):
-        # print(f'Number of ROIs inside OCR: {len(ROIs)}')
-        text = pytesseract.image_to_string(ROIs[i], lang=lang)
-        lh = text.strip()
-        lh = lh.replace("\n", " ")
-        if lh != '':
-            extracted_text.append(lh)
-        else:
-            extracted_text.append('are')
-    # print(areas)
-    return areas, extracted_text
+    return ocr_tesseract(ROIs, areas, lang)
