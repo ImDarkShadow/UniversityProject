@@ -221,6 +221,7 @@ def print_comic_text(croppedImages, cords, comicName, colors, isComplexBG, trans
     j = 0
     for i in range(len(croppedImages)):
         if len(cords[i]) == 0:
-            continue
-        putText(croppedImages[i], trans[j], cords[i], i, comicName, colors[i], isComplexBG)
-        j += 1
+            cv.imwrite(f"files/output/{comicName}/{i}.jpg", croppedImages[i])
+        else:
+            putText(croppedImages[i], trans[j], cords[i], i, comicName, colors[i], isComplexBG)
+            j += 1

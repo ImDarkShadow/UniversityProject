@@ -65,19 +65,10 @@ def ocr(image, lang, imageNumber, ocr_engine):
         crop = image[y:y + h, x:x + w]
 
         gray = cv.cvtColor(crop, cv.COLOR_BGR2GRAY)
-        # newim = cv.threshold(gray, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)[1]
-
-        # gray = cv.cvtColor(crop, cv.COLOR_BGR2GRAY)
-        # thresh = cv.threshold(
-        #     gray, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
-        # cv.imshow('thresh', crop)
-        # cv.waitKey()
-        # cv.imshow('dilate', sharpened)
-        # cv.waitKey()
-
         ROIs.append(crop)
         areas.append([x, y, w, h])
         # print(x, y, w, h)
+    print(f"printing areas {areas}")
     cv.imwrite(f"files/steps/outline{imageNumber}.jpg", image3)
     if ocr_engine == 'paddle':
         return ocr_paddle.main(ROIs, areas, 'en')

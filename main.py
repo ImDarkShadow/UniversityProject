@@ -14,7 +14,7 @@ comicName = file_list[int(comicNumber) - 1]
 createFolder(f'./files/output/{comicName}')
 isComplexBG = (getUserInput("Is there complex text background? (y/n): ") == 'y')
 
-ocr_engine = 'paddle'
+ocr_engine = 'tesseract'
 
 spinner = Halo(text='Creating Necessary Folders', spinner='dots')
 spinner.start()
