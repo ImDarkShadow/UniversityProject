@@ -2,7 +2,7 @@ import shutil
 import os
 import zipfile
 import cv2 as cv
-from get_textbox import ocr
+from ocr import ocr
 from cleanRawText import cleanRaw
 from printRegional import putText
 
@@ -148,7 +148,7 @@ def crop_image(crop_array, image, col):
     return croppedImages
 
 
-def ocr_images(croppedImages, lang):
+def ocr_images(croppedImages, lang, ocr_engine):
     """
     The ocr_images function takes in a list of cropped images and returns a list of the text in each image.
 
@@ -160,7 +160,7 @@ def ocr_images(croppedImages, lang):
     cords = []
     imageNumber = 0
     for i in croppedImages:
-        cord, text = ocr(i, lang, imageNumber)
+        cord, text = ocr(i, lang, imageNumber, ocr_engine)
         imageNumber += 1
         if len(text) != 0:
             texts.append(text)

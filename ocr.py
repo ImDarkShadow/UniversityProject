@@ -1,16 +1,16 @@
 import cv2 as cv
 import numpy as np
 from paddleocr import PaddleOCR
-from pytesseract import *
+from ocrengines import ocr_paddle, ocr_tesseract
 
 
-def get_textbox(image, lang, imageNumber):
+def ocr(image, lang, imageNumber, ocr_engine):
     """
-    The ocr function takes in an image and a language, runs the PaddleOCR engine on it,
+    The ocrengines function takes in an image and a language, runs the PaddleOCR engine on it,
     and returns the bounding boxes of each character in the image.Then uses Tessaract to extract the text.
     
     
-    :param image: Pass the image to be used for ocr
+    :param image: Pass the image to be used for ocrengines
     :param lang: Specify the language of the text in the image
     :param imageNumber: To keep track of the image number
     :return: The areas and extracted text
@@ -79,5 +79,7 @@ def get_textbox(image, lang, imageNumber):
         areas.append([x, y, w, h])
         # print(x, y, w, h)
     cv.imwrite(f"files/steps/outline{imageNumber}.jpg", image3)
-
-    return ocr_tesseract(ROIs, areas, lang)
+    if ocr_engine == 'paddle':
+        return ocr_paddle.main(ROIs, areas, 'en')
+    elif ocr_engine == 'tesseract':
+        return ocr_tesseract.main(ROIs, areas, lang)

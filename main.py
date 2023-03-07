@@ -1,5 +1,5 @@
-from natsort import natsorted
 from halo import Halo
+from natsort import natsorted
 
 from translation import translate
 from utils import *
@@ -13,6 +13,8 @@ comicName = file_list[int(comicNumber) - 1]
 
 createFolder(f'./files/output/{comicName}')
 isComplexBG = (getUserInput("Is there complex text background? (y/n): ") == 'y')
+
+ocr_engine = 'paddle'
 
 spinner = Halo(text='Creating Necessary Folders', spinner='dots')
 spinner.start()
@@ -63,7 +65,8 @@ croppedImages = crop_image(crop_array, image, col)
 spinner.succeed('Images Cropped')
 spinner = Halo(text='Detecting Text Boxes', spinner='dots')
 spinner.start()
-region_of_interest = ocr_images(croppedImages)
+texts, cords = ocr_images(croppedImages, lang, ocr_engine)
+print(texts)
 spinner.succeed('Text Boxes And Text Detected')
 spinner = Halo(text='Translating Text', spinner='dots')
 spinner.start()
