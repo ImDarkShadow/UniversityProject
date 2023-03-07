@@ -14,7 +14,7 @@
 ### Uses
 
 - Copy comic chapter zip inside raw folder
-- `python3 start.py`
+- `python3 main.py`
 - output at output folder as zip
 
 ### Todo(not in any specific order)
