@@ -29,6 +29,7 @@ def extract_text_string(array):
 def main(region_of_interest, areas, lang):
     ocr = PaddleOCR(use_angle_cls=True, lang=lang, show_log=False)  # need to run only once to load model into memory
     extracted_text = []
+    temp = []
     for i in range(len(region_of_interest)):
         # print(f'Number of ROIs inside OCR: {len(ROIs)}')
         result = ocr.ocr(region_of_interest[i], cls=True, )
@@ -40,9 +41,13 @@ def main(region_of_interest, areas, lang):
         if lh != '':
             extracted_text.append(lh)
         else:
-            extracted_text.append('are')
-    # print(areas))
+            print(f"area {i} is empty")
+            temp.append(i)
+
     # print(areas)
+    for i in range(len(temp)):
+        areas.pop(temp[i] - i)
+    print(f"areas inside: {areas}")
     return areas, extracted_text
 
 
