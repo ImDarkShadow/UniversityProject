@@ -31,7 +31,7 @@ spinner.start()
 
 extract_comic(comicName)
 spinner.succeed('Comic Extracted')
-comicLanguage = 'en'
+comicLanguage = 'korean'
 chapterImages = getFiles(f'./files/temp/{comicName}')
 
 lang = comicLanguage

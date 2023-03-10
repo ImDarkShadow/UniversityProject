@@ -27,13 +27,13 @@ def extract_text_string(array):
 
 
 def main(region_of_interest, areas, lang):
-    ocr = PaddleOCR(use_angle_cls=True, lang=lang, show_log=False)  # need to run only once to load model into memory
+    ocr = PaddleOCR(use_angle_cls=True, lang='korean',
+                    show_log=False)  # need to run only once to load model into memory
     extracted_text = []
     temp = []
     for i in range(len(region_of_interest)):
         # print(f'Number of ROIs inside OCR: {len(ROIs)}')
         result = ocr.ocr(region_of_interest[i], cls=True, )
-        print("ocr  paddle")
         print(result)
         text = extract_text_string(result)
         lh = text.strip()

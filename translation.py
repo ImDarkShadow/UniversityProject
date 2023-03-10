@@ -24,7 +24,7 @@ def translate(*text):
             result += ' \n '
     # print(result)
 
-    translated = translator.translate(result, dest='bn')
+    translated = translator.translate(result, dest='en')
     # print(translated.text)
     # save result in output.txt
     translatedText = translated.text.split('\n')
